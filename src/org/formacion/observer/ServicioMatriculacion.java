@@ -1,20 +1,24 @@
 package org.formacion.observer;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class ServicioMatriculacion {
 	
-	public void alta (Matricula nueva) {
-		System.out.printf("%s - \n");
-		
-		new Mensajeria().enviaMensajeAlta(nueva.getAlumno(), nueva.getCurso());
-		
-		if (nueva.isPrimeraMatricula()) {
-			new ServicioAlumno().nuevoAlumno(nueva.getAlumno());
-		}
+	// Para no permitir observer duplicados
+	private Set<NuevaMatriculaObserver> observers = new LinkedHashSet<>();
+	
+	public void registra (NuevaMatriculaObserver observer) {
+		observers.add(observer);
 	}
 	
-	/*
-	 * Tendría dependencias con todos los módulos que invoca, 
-	 * aunque conceptualmente esta no exista en ella.  
-	 */
+	public void alta (Matricula nueva) {
+		System.out.printf("Creando nueva matrícula de %s para %s. \n", nueva.getCurso(), nueva.getAlumno());
+		
+		// El obj observado
+		for (NuevaMatriculaObserver observer: observers) {
+			observer.nueva(nueva);
+		}
+	}
 
 }
