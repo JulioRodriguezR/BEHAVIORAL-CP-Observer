@@ -11,5 +11,10 @@ public class ServicioMatriculacion {
 			new ServicioAlumno().nuevoAlumno(nueva.getAlumno());
 		}
 	}
+	
+	/*
+	 * Tendría dependencias con todos los módulos que invoca, 
+	 * aunque conceptualmente esta no exista en ella.  
+	 */
 
 }
